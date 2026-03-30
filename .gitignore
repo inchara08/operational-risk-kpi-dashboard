@@ -1,0 +1,26 @@
+__pycache__/
+*.py[cod]
+*.egg-info/
+.env
+.venv/
+venv/
+
+# Data (gitignored — generate locally)
+data/raw/
+data/processed/
+
+# Model artifacts (too large for git)
+models/
+
+# Reports (generated output)
+reports/
+
+# Local DB credentials override
+config/local.yaml
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb_checkpoints
+
+# OS
+.DS_Store

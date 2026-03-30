@@ -1,0 +1,6 @@
+plant_id,plant_code,plant_name,region,capacity_units
+1,PLT-001,North Assembly Plant,Northeast,12000
+2,PLT-002,South Fabrication Hub,Southeast,9500
+3,PLT-003,Midwest Press Works,Midwest,11000
+4,PLT-004,West Coast Packaging,West,8000
+5,PLT-005,Central CNC Center,Central,10500

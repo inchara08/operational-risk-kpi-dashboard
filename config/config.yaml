@@ -1,0 +1,74 @@
+database:
+  host: "localhost"
+  port: 5432
+  dbname: "operational_risk"
+  user: "postgres"
+  schema: "public"
+  # Password: set via env var PGPASSWORD or leave blank for local trust auth
+
+generator:
+  seed: 42
+  n_plants: 5
+  n_machines_per_plant: 10
+  n_work_orders: 500000
+  n_telemetry_hours: 1200000
+  n_inspections: 400000
+  date_start: "2021-01-01"
+  date_end: "2023-12-31"
+  # Injected degradation window: Plant 3 goes bad months 15-18
+  degradation:
+    plant_index: 2          # 0-indexed → Plant 3
+    start_month: 15
+    end_month: 18
+    failure_rate_multiplier: 3.0
+    defect_rate_multiplier: 2.0
+
+validation:
+  max_null_rate: 0.02
+  temperature_range: [15.0, 120.0]
+  vibration_range: [0.0, 50.0]
+  pressure_range: [0.5, 20.0]
+  power_range: [0.0, 500.0]
+  rpm_range: [0.0, 5000.0]
+
+features:
+  telemetry_lookback_hours: 24
+  rolling_windows_days: [7, 14, 30]
+
+models:
+  anomaly:
+    n_estimators: 200
+    contamination: 0.03
+    random_state: 42
+  xgboost:
+    n_estimators: 400
+    max_depth: 6
+    learning_rate: 0.05
+    subsample: 0.8
+    colsample_bytree: 0.8
+    scale_pos_weight: 4     # ~20% failure rate → handles imbalance
+    random_state: 42
+    n_jobs: -1
+  lightgbm:
+    n_estimators: 400
+    max_depth: 6
+    learning_rate: 0.05
+    num_leaves: 63
+    min_child_samples: 20
+    random_state: 42
+    n_jobs: -1
+  cv_splits: 5
+  train_test_split_quantile: 0.80
+  ensemble_weights: [0.5, 0.5]  # [xgb_weight, lgb_weight]
+
+kpis:
+  oee_threshold: 0.85           # flag plants below this
+  sla_breach_threshold_hours: 2.0
+  high_risk_score_threshold: 0.65
+  anomaly_score_threshold: -0.1  # Isolation Forest score (negative = anomalous)
+
+dashboard:
+  host: "0.0.0.0"
+  port: 8050
+  debug: false
+  top_risk_table_rows: 20
