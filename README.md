@@ -22,6 +22,13 @@
 - **TimeSeriesSplit cross-validation** (5 folds) — no temporal data leakage
 - Risk scores written back to PostgreSQL; live KPI snapshots updated per run
 
+<img width="1417" height="776" alt="image" src="https://github.com/user-attachments/assets/380cce00-44f2-44bf-906a-74fb7ff15235" />
+<img width="1419" height="747" alt="image" src="https://github.com/user-attachments/assets/373680a0-086a-462a-b507-a615cf787067" />
+<img width="1427" height="583" alt="image" src="https://github.com/user-attachments/assets/fa04d2f0-b553-4709-88a6-d2587d004248" />
+<img width="1429" height="539" alt="image" src="https://github.com/user-attachments/assets/ef2af2dd-1123-42b6-8a6e-09a37a31ce5a" />
+<img width="1436" height="812" alt="image" src="https://github.com/user-attachments/assets/bd57ec48-228b-46f9-b645-bf8b58efe7cc" />
+<img width="1440" height="766" alt="image" src="https://github.com/user-attachments/assets/7b4cdbdc-0b9d-49d8-b1a6-12b71c864ce7" />
+
 ---
 
 ## Architecture
