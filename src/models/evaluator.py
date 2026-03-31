@@ -5,7 +5,6 @@ Saves all images to results/images/ for README and dashboard embedding.
 
 from __future__ import annotations
 
-import json
 import logging
 from pathlib import Path
 
@@ -13,20 +12,18 @@ import joblib
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
-import numpy as np
 import pandas as pd
 from sklearn.metrics import (
     ConfusionMatrixDisplay,
-    RocCurveDisplay,
     confusion_matrix,
     roc_curve,
     auc,
 )
 
+from src.features.pipeline import FEATURE_COLS, TARGET_COL
+
 log = logging.getLogger(__name__)
 IMAGES_DIR = Path("results/images")
-
-from src.features.pipeline import FEATURE_COLS, TARGET_COL
 
 
 def generate_shap_plot(features_df: pd.DataFrame) -> None:

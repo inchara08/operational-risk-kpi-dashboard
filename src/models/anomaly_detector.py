@@ -9,7 +9,6 @@ written back to the machine_telemetry table (anomaly_flag, anomaly_score).
 from __future__ import annotations
 
 import logging
-import os
 from pathlib import Path
 
 import joblib
