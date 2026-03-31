@@ -32,4 +32,4 @@ tqdm>=4.66
 
 # Dev / Testing
 pytest>=7.4
-ruff>=0.1
+ruff==0.15.7
