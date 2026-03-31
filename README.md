@@ -49,34 +49,34 @@ Raw Data (Synthetic)
 └─────────────────────────────────────────────────────────────────┘
         │
         ▼
-┌─────────────────────────────────────────────────────────────────┐
+┌────────────────────────────────────────────────────────────────┐
 │  FEATURES  26 features across 5 groups:                        │
 │    - Work order static (priority, product type, time)          │
 │    - Schedule pressure (lead time, queue depth, overdue flag)  │
 │    - Machine history (rolling 30d failures, MTTR, last failure)│
 │    - Telemetry aggregates (sensor stats, anomaly count 24h)    │
 │    - Plant context (utilization rate, rolling defect/risk)     │
-└─────────────────────────────────────────────────────────────────┘
+└────────────────────────────────────────────────────────────────┘
         │
         ▼
 ┌─────────────────────────────────────────────────────────────────┐
 │  MODELS                                                         │
-│    IsolationForest → anomaly_flag per telemetry row            │
-│    XGBoost + LightGBM Ensemble → risk_score per work order     │
-│    SHAP explainability → feature importance visualization      │
+│    IsolationForest → anomaly_flag per telemetry row             │
+│    XGBoost + LightGBM Ensemble → risk_score per work order      │
+│    SHAP explainability → feature importance visualization       │
 └─────────────────────────────────────────────────────────────────┘
         │
         ▼
 ┌─────────────────────────────────────────────────────────────────┐
-│  KPI CALCULATOR  OEE · MTTR · MTBF · SLA Breach · Defect Rate │
+│  KPI CALCULATOR  OEE · MTTR · MTBF · SLA Breach · Defect Rate   │
 │                  Writes to kpi_snapshots → PostgreSQL           │
 └─────────────────────────────────────────────────────────────────┘
         │
         ▼
 ┌─────────────────────────────────────────────────────────────────┐
 │  DELIVERY                                                       │
-│    Plotly Dash (5 pages) · HTML report (self-contained)        │
-│    PDF report (stakeholder delivery) · Power BI compatible     │
+│    Plotly Dash (5 pages) · HTML report (self-contained)         │
+│    PDF report (stakeholder delivery) · Power BI compatible      │
 └─────────────────────────────────────────────────────────────────┘
 ```
 
