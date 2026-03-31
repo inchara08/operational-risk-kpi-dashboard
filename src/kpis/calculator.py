@@ -16,12 +16,8 @@ KPIs:
 from __future__ import annotations
 
 import logging
-import os
-from datetime import date
-from pathlib import Path
 
 import pandas as pd
-import numpy as np
 import psycopg2
 import psycopg2.extras
 import yaml
@@ -86,8 +82,6 @@ def run(
 ) -> pd.DataFrame:
     with open(config_path) as f:
         cfg = yaml.safe_load(f)
-
-    high_risk_threshold = cfg["kpis"]["high_risk_score_threshold"]
 
     if use_db:
         from src.db import get_connection

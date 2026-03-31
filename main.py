@@ -15,8 +15,6 @@ Usage:
 """
 
 import logging
-import os
-import sys
 from pathlib import Path
 
 import click
@@ -77,7 +75,8 @@ def ingest(config, data_dir):
 def validate(config, data_dir, out_dir, no_db):
     """Run data quality and business rule validation."""
     import pandas as pd
-    from src.validation import schema_validator, business_rules, reporter
+
+    from src.validation import business_rules, reporter, schema_validator
 
     log.info("=== STAGE: validate ===")
     cfg = _load_cfg()
@@ -120,7 +119,7 @@ def features(config, data_dir, out_dir, no_db):
 @click.option("--no-db", is_flag=True, default=False)
 def train(config, processed_dir, data_dir, no_db):
     """Train XGBoost/LightGBM ensemble + Isolation Forest anomaly detector."""
-    from src.models import risk_classifier, anomaly_detector, evaluator
+    from src.models import anomaly_detector, evaluator, risk_classifier
 
     log.info("=== STAGE: train ===")
 
@@ -149,7 +148,8 @@ def train(config, processed_dir, data_dir, no_db):
 def score(config, processed_dir, data_dir, no_db):
     """Score all work orders and write risk_score/risk_label back to PostgreSQL."""
     import pandas as pd
-    from src.models import risk_classifier, anomaly_detector
+
+    from src.models import anomaly_detector, risk_classifier
 
     log.info("=== STAGE: score ===")
     cfg = _load_cfg()
@@ -161,6 +161,7 @@ def score(config, processed_dir, data_dir, no_db):
 
     if not no_db:
         import psycopg2.extras
+
         from src.db import get_connection
         conn = get_connection(cfg)
         records = list(scores_df[["risk_score", "risk_label", "work_order_id"]].itertuples(index=False, name=None))

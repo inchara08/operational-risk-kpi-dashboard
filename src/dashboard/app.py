@@ -16,7 +16,6 @@ from __future__ import annotations
 
 import base64
 import json
-import os
 from pathlib import Path
 
 import dash
@@ -25,7 +24,6 @@ import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
 from dash import Input, Output, dash_table, dcc, html
-
 
 # ──────────────────────────────────────────────────────────────
 # Data loading
@@ -507,7 +505,10 @@ def create_app(cfg: dict) -> dash.Dash:
             mode="markers",
             marker=dict(color="#adb5bd", size=5, opacity=0.25),
             name="Normal",
-            hovertemplate="Plant: %{customdata[0]}<br>Priority: %{customdata[1]}<br>Status: %{customdata[2]}<br>Score: %{y:.3f}<extra></extra>",
+            hovertemplate=(
+                "Plant: %{customdata[0]}<br>Priority: %{customdata[1]}"
+                "<br>Status: %{customdata[2]}<br>Score: %{y:.3f}<extra></extra>"
+            ),
             customdata=normal[["plant_name", "priority", "status"]].values,
         ))
 
@@ -520,7 +521,10 @@ def create_app(cfg: dict) -> dash.Dash:
                 marker=dict(color=color, size=6, opacity=0.7),
                 name=f"{plant} (high-risk)",
                 legendgroup=plant,
-                hovertemplate=f"<b>{plant}</b><br>Priority: %{{customdata[0]}}<br>Status: %{{customdata[1]}}<br>Score: %{{y:.3f}}<extra></extra>",
+                hovertemplate=(
+                    f"<b>{plant}</b><br>Priority: %{{customdata[0]}}"
+                    "<br>Status: %{customdata[1]}<br>Score: %{y:.3f}<extra></extra>"
+                ),
                 customdata=grp[["priority", "status"]].values,
             ))
 
@@ -693,7 +697,7 @@ def create_app(cfg: dict) -> dash.Dash:
         )
 
         # ── Vibration chart ──────────────────────────────────────
-        anomalies = tel[tel["anomaly_flag"] == True].dropna(subset=["vibration_hz"])
+        anomalies = tel[tel["anomaly_flag"]].dropna(subset=["vibration_hz"])
         if len(anomalies) == 0:
             fig_vib = go.Figure()
             fig_vib.update_layout(title="No anomaly readings for selected plants.", height=350)

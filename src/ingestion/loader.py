@@ -8,13 +8,9 @@ tables before loading so re-runs are safe.
 
 from __future__ import annotations
 
-import io
-import os
 import logging
 from pathlib import Path
 
-import psycopg2
-import psycopg2.extras
 import yaml
 
 log = logging.getLogger(__name__)

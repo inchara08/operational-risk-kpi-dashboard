@@ -17,10 +17,8 @@ Maintenance dataset failure rates and sensor value ranges.
 from __future__ import annotations
 
 import csv
-import os
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
-from typing import Generator
 
 import numpy as np
 import yaml
@@ -292,7 +290,6 @@ def generate_telemetry(
         "Packaging": {"temp": (38, 4),  "vib": (4, 1),   "pres": (2, 0.3), "pwr": (12, 2),  "rpm": (400, 50)},
     }
 
-    machine_map = {m["machine_id"]: m for m in machines}
     rows_written = 0
     telemetry_id = 1
 
@@ -360,7 +357,6 @@ def generate_inspections(
     out_path: Path,
 ) -> int:
     """Generate quality inspections from completed/delayed work orders."""
-    gen_cfg = cfg["generator"]
     sla_threshold_h = cfg["kpis"]["sla_breach_threshold_hours"]
 
     fieldnames = [
@@ -463,7 +459,7 @@ def run(config_path: str = "config/config.yaml", out_dir: str = "data/raw") -> d
     wo_count = generate_work_orders(plants, machines, cfg, rng, wo_path)
     print(f"  work_orders: {wo_count:,} rows ({time.time() - t0:.1f}s)")
 
-    print(f"Generating telemetry (50 machines × 3 years hourly)...")
+    print("Generating telemetry (50 machines × 3 years hourly)...")
     t0 = time.time()
     tel_path = out_path / "machine_telemetry.csv"
     tel_count = generate_telemetry(plants, machines, cfg, rng, tel_path)

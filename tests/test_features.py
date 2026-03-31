@@ -2,14 +2,13 @@
 
 import numpy as np
 import pandas as pd
-import pytest
 
-from src.features.work_order_features import (
-    build_static_features,
-    build_schedule_pressure_features,
-    PRIORITY_MAP,
-)
 from src.features.telemetry_features import aggregate_telemetry_per_machine
+from src.features.work_order_features import (
+    PRIORITY_MAP,
+    build_schedule_pressure_features,
+    build_static_features,
+)
 
 
 def _sample_wo(n: int = 20) -> pd.DataFrame:
