@@ -1,12 +1,16 @@
 [build-system]
 requires = ["setuptools>=68", "wheel"]
-build-backend = "setuptools.backends.legacy:build"
+build-backend = "setuptools.build_meta"
 
 [project]
 name = "operational-risk-kpi-dashboard"
 version = "1.0.0"
 description = "End-to-end operational risk analytics platform with predictive modeling and KPI dashboards"
 requires-python = ">=3.10"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["src*"]
 
 [tool.ruff]
 line-length = 130
