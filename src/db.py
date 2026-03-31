@@ -1,6 +1,8 @@
 """Shared PostgreSQL connection utility."""
 from __future__ import annotations
+
 import os
+
 import psycopg2
 
 

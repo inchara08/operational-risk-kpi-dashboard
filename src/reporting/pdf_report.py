@@ -13,16 +13,15 @@ from __future__ import annotations
 
 import json
 import logging
-import os
 from pathlib import Path
 
 import matplotlib
+
 matplotlib.use("Agg")
-import matplotlib.pyplot as plt
 import matplotlib.gridspec as gridspec
-from matplotlib.backends.backend_pdf import PdfPages
+import matplotlib.pyplot as plt
 import pandas as pd
-import numpy as np
+from matplotlib.backends.backend_pdf import PdfPages
 
 log = logging.getLogger(__name__)
 

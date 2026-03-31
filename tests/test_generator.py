@@ -2,19 +2,17 @@
 
 import csv
 import tempfile
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 import numpy as np
-import pytest
 
 from src.ingestion.generator import (
+    _is_in_degradation_window,
     generate_machines,
     generate_plants,
     generate_work_orders,
-    _is_in_degradation_window,
 )
-from datetime import datetime, timezone, timedelta
-
 
 MINIMAL_CFG = {
     "generator": {

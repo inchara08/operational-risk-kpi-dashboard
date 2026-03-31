@@ -16,9 +16,7 @@ Charts included:
 from __future__ import annotations
 
 import base64
-import json
 import logging
-import os
 from pathlib import Path
 
 import pandas as pd

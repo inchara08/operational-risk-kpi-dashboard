@@ -12,11 +12,10 @@ Rules checked:
 from __future__ import annotations
 
 import logging
-from dataclasses import dataclass
 
 import pandas as pd
 
-from src.validation.schema_validator import ValidationResult, ValidationError
+from src.validation.schema_validator import ValidationError, ValidationResult
 
 log = logging.getLogger(__name__)
 

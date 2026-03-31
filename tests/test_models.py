@@ -5,10 +5,8 @@ Uses small synthetic datasets — no DB required.
 
 import numpy as np
 import pandas as pd
-import pytest
 
 from src.features.pipeline import FEATURE_COLS, TARGET_COL
-
 
 MINIMAL_CFG = {
     "models": {
@@ -54,7 +52,7 @@ def _make_telemetry(n: int = 100) -> pd.DataFrame:
 
 
 def test_anomaly_detector_train_and_score():
-    from src.models.anomaly_detector import train, score
+    from src.models.anomaly_detector import score, train
 
     tel = _make_telemetry(100)
     model, scaler = train(tel, MINIMAL_CFG)
@@ -67,7 +65,7 @@ def test_anomaly_detector_train_and_score():
 
 
 def test_anomaly_score_range():
-    from src.models.anomaly_detector import train, score
+    from src.models.anomaly_detector import score, train
 
     tel = _make_telemetry(100)
     model, scaler = train(tel, MINIMAL_CFG)
@@ -88,7 +86,7 @@ def test_risk_classifier_train_returns_metrics():
 
 
 def test_risk_classifier_score_probabilities():
-    from src.models.risk_classifier import train, score
+    from src.models.risk_classifier import score, train
 
     features_df = _make_features(200)
     train(features_df, MINIMAL_CFG)
@@ -102,7 +100,7 @@ def test_risk_classifier_score_probabilities():
 
 
 def test_risk_classifier_score_count_matches():
-    from src.models.risk_classifier import train, score
+    from src.models.risk_classifier import score, train
 
     features_df = _make_features(200)
     train(features_df, MINIMAL_CFG)

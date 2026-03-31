@@ -10,9 +10,8 @@ Produces the following feature groups:
 
 from __future__ import annotations
 
-import pandas as pd
 import numpy as np
-
+import pandas as pd
 
 PRIORITY_MAP = {"critical": 4, "high": 3, "medium": 2, "low": 1}
 

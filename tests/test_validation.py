@@ -1,20 +1,16 @@
 """Tests for the data validation layer."""
 
 import pandas as pd
-import pytest
 
-from src.validation.schema_validator import (
-    ValidationError,
-    validate_work_orders,
-    validate_telemetry,
-    validate_inspections,
-)
 from src.validation.business_rules import (
-    check_temporal_consistency,
     check_numeric_sanity,
     check_referential_integrity,
+    check_temporal_consistency,
 )
-
+from src.validation.schema_validator import (
+    validate_telemetry,
+    validate_work_orders,
+)
 
 MINIMAL_CFG = {
     "validation": {

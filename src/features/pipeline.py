@@ -8,21 +8,20 @@ and writes the final feature matrix to data/processed/features.parquet.
 from __future__ import annotations
 
 import logging
-import os
 from pathlib import Path
 
 import pandas as pd
 import yaml
 
-from src.features.work_order_features import (
-    build_static_features,
-    build_schedule_pressure_features,
-    build_machine_history_features,
-    build_plant_context_features,
-)
 from src.features.telemetry_features import (
     aggregate_telemetry_per_machine,
     join_telemetry_to_work_orders,
+)
+from src.features.work_order_features import (
+    build_machine_history_features,
+    build_plant_context_features,
+    build_schedule_pressure_features,
+    build_static_features,
 )
 
 log = logging.getLogger(__name__)
