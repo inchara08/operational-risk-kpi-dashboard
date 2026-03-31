@@ -93,4 +93,4 @@ def test_product_type_encoding():
     wo = _sample_wo()
     result = build_static_features(wo)
     # All rows should have a valid integer encoding
-    assert result["product_type_encoded"].dtype in [int, "int64", "int32"]
+    assert pd.api.types.is_integer_dtype(result["product_type_encoded"])
