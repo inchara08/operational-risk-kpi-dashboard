@@ -83,12 +83,8 @@ def validate(config, data_dir, out_dir, no_db):
     cfg = _load_cfg()
 
     if not no_db:
-        import psycopg2
-        db = cfg["database"]
-        conn = psycopg2.connect(
-            host=db["host"], port=db["port"], dbname=db["dbname"],
-            user=db["user"], password=os.environ.get("PGPASSWORD", ""),
-        )
+        from src.db import get_connection
+        conn = get_connection(cfg)
         wo = pd.read_sql("SELECT * FROM work_orders LIMIT 200000", conn)
         tel = pd.read_sql("SELECT * FROM machine_telemetry LIMIT 200000", conn)
         insp = pd.read_sql("SELECT * FROM quality_inspections LIMIT 200000", conn)
@@ -164,13 +160,9 @@ def score(config, processed_dir, data_dir, no_db):
     scores_df = risk_classifier.score(features_df, cfg)
 
     if not no_db:
-        import psycopg2
         import psycopg2.extras
-        db = cfg["database"]
-        conn = psycopg2.connect(
-            host=db["host"], port=db["port"], dbname=db["dbname"],
-            user=db["user"], password=os.environ.get("PGPASSWORD", ""),
-        )
+        from src.db import get_connection
+        conn = get_connection(cfg)
         records = list(scores_df[["risk_score", "risk_label", "work_order_id"]].itertuples(index=False, name=None))
         with conn.cursor() as cur:
             psycopg2.extras.execute_batch(

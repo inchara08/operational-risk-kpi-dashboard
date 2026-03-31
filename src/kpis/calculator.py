@@ -31,9 +31,12 @@ log = logging.getLogger(__name__)
 
 def compute_oee(
     wo_day: pd.DataFrame,
-    scheduled_minutes: float = 1440.0,  # 24h × 60min
+    minutes_per_machine: float = 1440.0,  # 24h × 60min per machine
 ) -> dict:
     """Compute OEE components for a single day/plant slice."""
+    # Total scheduled capacity = machines active that day × minutes per machine
+    n_machines = wo_day["machine_id"].nunique()
+    scheduled_minutes = max(n_machines, 1) * minutes_per_machine
     total_downtime = wo_day["downtime_minutes"].sum()
     availability = max(0.0, (scheduled_minutes - total_downtime) / scheduled_minutes)
 
@@ -87,11 +90,8 @@ def run(
     high_risk_threshold = cfg["kpis"]["high_risk_score_threshold"]
 
     if use_db:
-        db = cfg["database"]
-        conn = psycopg2.connect(
-            host=db["host"], port=db["port"], dbname=db["dbname"],
-            user=db["user"], password=os.environ.get("PGPASSWORD", ""),
-        )
+        from src.db import get_connection
+        conn = get_connection(cfg)
         wo = pd.read_sql(
             "SELECT wo.*, m.machine_type FROM work_orders wo "
             "JOIN machines m USING (machine_id)",

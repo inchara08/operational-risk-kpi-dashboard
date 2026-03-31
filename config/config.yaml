@@ -2,7 +2,7 @@ database:
   host: "localhost"
   port: 5432
   dbname: "operational_risk"
-  user: "postgres"
+  user: "incharasathyanarayan"
   schema: "public"
   # Password: set via env var PGPASSWORD or leave blank for local trust auth
 

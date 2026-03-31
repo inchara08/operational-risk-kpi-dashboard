@@ -47,12 +47,8 @@ TARGET_COL = "risk_label_raw"  # 1 if status in {failed, delayed} else 0
 
 
 def _load_from_db(cfg: dict) -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:
-    import psycopg2
-    db = cfg["database"]
-    conn = psycopg2.connect(
-        host=db["host"], port=db["port"], dbname=db["dbname"],
-        user=db["user"], password=os.environ.get("PGPASSWORD", ""),
-    )
+    from src.db import get_connection
+    conn = get_connection(cfg)
     wo = pd.read_sql("SELECT * FROM work_orders", conn)
     tel = pd.read_sql("SELECT * FROM machine_telemetry", conn)
     machines = pd.read_sql("SELECT machine_id, install_date, machine_type FROM machines", conn)

@@ -13,12 +13,12 @@
 
 | Model | AUC-ROC | AUC-PR | F1 (threshold=0.65) |
 |---|---|---|---|
-| XGBoost | 0.891 | 0.743 | 0.810 |
-| LightGBM | 0.887 | 0.738 | 0.795 |
-| **Ensemble** | **0.903** | **0.761** | **0.832** |
+| XGBoost | 0.719 | 0.526 | 0.371 |
+| LightGBM | 0.718 | 0.524 | 0.368 |
+| **Ensemble** | **0.719** | **0.526** | **0.371** |
 
-- Anomaly detector: **96.4% precision** on injected plant degradation windows
-- Pipeline processes **2.1M rows end-to-end in ~4 minutes** on a standard laptop
+- Anomaly detector flags **100% of telemetry rows scored** across 1.3M readings
+- Pipeline processes **2.3M rows end-to-end in ~15 minutes** on a standard laptop
 - **TimeSeriesSplit cross-validation** (5 folds) — no temporal data leakage
 - Risk scores written back to PostgreSQL; live KPI snapshots updated per run
 

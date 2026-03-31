@@ -21,14 +21,8 @@ log = logging.getLogger(__name__)
 
 
 def get_connection(cfg: dict):
-    db = cfg["database"]
-    return psycopg2.connect(
-        host=db["host"],
-        port=db["port"],
-        dbname=db["dbname"],
-        user=db["user"],
-        password=os.environ.get("PGPASSWORD", ""),
-    )
+    from src.db import get_connection as _get_conn
+    return _get_conn(cfg)
 
 
 def _copy_csv(conn, table: str, csv_path: Path, columns: list[str]) -> int:
@@ -65,36 +59,37 @@ def run(config_path: str = "config/config.yaml", data_dir: str = "data/raw") -> 
             (
                 "plants",
                 data_path / "plants.csv",
-                ["plant_code", "plant_name", "region", "capacity_units"],
+                ["plant_id", "plant_code", "plant_name", "region", "capacity_units"],
             ),
             (
                 "machines",
                 data_path / "machines.csv",
-                ["machine_code", "plant_id", "machine_type", "install_date", "expected_life_years"],
+                ["machine_id", "machine_code", "plant_id", "machine_type", "install_date", "expected_life_years"],
             ),
             (
                 "work_orders",
                 data_path / "work_orders.csv",
                 [
-                    "machine_id", "plant_id", "created_at", "scheduled_start",
+                    "work_order_id", "machine_id", "plant_id", "created_at", "scheduled_start",
                     "actual_start", "scheduled_end", "actual_end", "status",
                     "priority", "product_type", "planned_units", "actual_units",
                     "defect_count", "downtime_minutes", "operator_id", "failure_mode",
+                    "risk_score", "risk_label",
                 ],
             ),
             (
                 "machine_telemetry",
                 data_path / "machine_telemetry.csv",
                 [
-                    "machine_id", "recorded_at", "temperature_c", "vibration_hz",
-                    "pressure_bar", "power_kw", "rpm",
+                    "telemetry_id", "machine_id", "recorded_at", "temperature_c", "vibration_hz",
+                    "pressure_bar", "power_kw", "rpm", "anomaly_flag", "anomaly_score",
                 ],
             ),
             (
                 "quality_inspections",
                 data_path / "quality_inspections.csv",
                 [
-                    "work_order_id", "inspected_at", "inspector_id",
+                    "inspection_id", "work_order_id", "inspected_at", "inspector_id",
                     "units_inspected", "units_passed", "units_failed",
                     "defect_type", "severity", "sla_breach",
                 ],
@@ -114,6 +109,15 @@ def run(config_path: str = "config/config.yaml", data_dir: str = "data/raw") -> 
             counts[table] = n
             log.info("  %s: %s rows loaded", table, f"{n:,}")
 
+        # Sync sequences so future INSERTs don't collide with loaded IDs
+        with conn.cursor() as cur:
+            cur.execute("""
+                SELECT setval('plants_plant_id_seq', (SELECT MAX(plant_id) FROM plants));
+                SELECT setval('machines_machine_id_seq', (SELECT MAX(machine_id) FROM machines));
+                SELECT setval('work_orders_work_order_id_seq', (SELECT MAX(work_order_id) FROM work_orders));
+                SELECT setval('machine_telemetry_telemetry_id_seq', (SELECT MAX(telemetry_id) FROM machine_telemetry));
+                SELECT setval('quality_inspections_inspection_id_seq', (SELECT MAX(inspection_id) FROM quality_inspections));
+            """)
         conn.commit()
         log.info("All tables loaded successfully.")
 

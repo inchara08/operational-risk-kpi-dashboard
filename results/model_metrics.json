@@ -1,0 +1,42 @@
+{
+  "cv_auc_mean": 0.72033343446016,
+  "cv_auc_std": 0.011361675794547976,
+  "test_auc_roc": 0.7189102460674762,
+  "test_auc_pr": 0.5261999012617937,
+  "test_f1": 0.37084691989072,
+  "test_n": 100000,
+  "test_positive_rate": 0.31236,
+  "threshold": 0.65,
+  "feature_names": [
+    "priority_encoded",
+    "product_type_encoded",
+    "planned_units",
+    "day_of_week",
+    "hour_of_day",
+    "is_monday",
+    "is_end_of_quarter",
+    "planned_duration_hours",
+    "lead_time_hours",
+    "queue_depth",
+    "overdue_flag",
+    "machine_age_years",
+    "failure_count_30d",
+    "avg_downtime_30d",
+    "days_since_last_failure",
+    "plant_defect_rate_7d",
+    "plant_failure_rate_7d",
+    "plant_utilization_rate",
+    "tel_temp_mean",
+    "tel_temp_std",
+    "tel_temp_max",
+    "tel_vib_mean",
+    "tel_vib_max",
+    "tel_pres_deviation",
+    "tel_pwr_spike_count",
+    "tel_anomaly_count"
+  ],
+  "ensemble_weights": [
+    0.5,
+    0.5
+  ]
+}

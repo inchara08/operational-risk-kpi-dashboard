@@ -31,12 +31,8 @@ log = logging.getLogger(__name__)
 
 def _load_data(cfg: dict, use_db: bool) -> dict[str, pd.DataFrame]:
     if use_db:
-        import psycopg2
-        db = cfg["database"]
-        conn = psycopg2.connect(
-            host=db["host"], port=db["port"], dbname=db["dbname"],
-            user=db["user"], password=os.environ.get("PGPASSWORD", ""),
-        )
+        from src.db import get_connection
+        conn = get_connection(cfg)
         data = {
             "kpi": pd.read_sql(
                 "SELECT k.*, p.plant_name FROM kpi_snapshots k JOIN plants p USING (plant_id)", conn

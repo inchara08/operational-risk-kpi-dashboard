@@ -56,7 +56,7 @@ CREATE TABLE IF NOT EXISTS machine_telemetry (
     power_kw        NUMERIC(7,3),
     rpm             NUMERIC(7,1),
     -- Model outputs (populated by anomaly scoring stage)
-    anomaly_flag    BOOLEAN     NOT NULL DEFAULT FALSE,
+    anomaly_flag    BOOLEAN     DEFAULT FALSE,
     anomaly_score   NUMERIC(7,4)
 );
 
