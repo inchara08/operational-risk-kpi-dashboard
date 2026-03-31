@@ -10,7 +10,7 @@ data/raw/
 data/processed/
 
 # Model artifacts (too large for git)
-models/
+/models/
 
 # Reports (generated output)
 reports/
